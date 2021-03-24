@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>{{ data.name }}</h2>
     <li v-for="post of posts" :key="post.slug">
       <NuxtLink :to="post.path">{{ post.title }}</NuxtLink>
     </li>
@@ -17,10 +18,11 @@ export default {
   },
   async asyncData({ $content }) {
     const posts = await $content("blog").fetch();
-    console.log(posts);
-
+    const dataArr = await $content("data").fetch();
+    const data = await dataArr[0];
     return {
-      posts
+      posts,
+      data
     };
   }
 };
