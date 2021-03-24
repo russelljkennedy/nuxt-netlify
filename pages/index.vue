@@ -1,6 +1,9 @@
 <template>
   <div>
     <h2>{{ data.name }}</h2>
+
+    <Description :data="data" />
+
     <li v-for="post of posts" :key="post.slug">
       <NuxtLink :to="post.path">{{ post.title }}</NuxtLink>
     </li>
@@ -8,6 +11,8 @@
 </template>
 
 <script>
+import Description from "~/components/Description";
+
 export default {
   head() {
     return {
@@ -15,6 +20,9 @@ export default {
         { src: "https://identity.netlify.com/v1/netlify-identity-widget.js" }
       ]
     };
+  },
+  components: {
+    Description
   },
   async asyncData({ $content }) {
     const posts = await $content("blog").fetch();
