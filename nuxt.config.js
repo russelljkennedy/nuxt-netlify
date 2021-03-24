@@ -17,28 +17,38 @@ export default {
   },
 
   generate: {
-    async routes() {
-      const contentPaths = ["docs"];
-
-      const files = [];
-      contentPaths.forEach(async path => {
-        const file = await $content(path).fetch();
-        files.push(file);
-      });
-
-      const generated = files.map(file => {
-        return {
-          route: file.path === "/index" ? "/" : file.path,
-          payload: fs.readFileSync(
-            `./content/${file.path}${file.extension}`,
-            "utf-8"
-          )
-        };
-      });
-
-      return generated;
+    async ready() {
+      const { $content } = require("@nuxt/content");
+      const files = await $content()
+        .only(["slug"])
+        .fetch();
+      console.log(files);
     }
   },
+
+  // generate: {
+  //   async routes() {
+  //     const contentPaths = ["docs"];
+
+  //     const files = [];
+  //     contentPaths.forEach(async path => {
+  //       const file = await $content(path).fetch();
+  //       files.push(file);
+  //     });
+
+  //     const generated = files.map(file => {
+  //       return {
+  //         route: file.path === "/index" ? "/" : file.path,
+  //         payload: fs.readFileSync(
+  //           `./content/${file.path}${file.extension}`,
+  //           "utf-8"
+  //         )
+  //       };
+  //     });
+
+  //     return generated;
+  //   }
+  // },
 
   // generate: {
   //   routes: function() {
